@@ -80,7 +80,6 @@ if __name__ == "__main__":
     # Get the top 20,000 words in a local array in a sorted format based on frequency
     topWords = allCounts.top(20000 , lambda p: p[1])
     
-    
     # We'll create a RDD that has a set of (word, dictNum) pairs
     # start by creating an RDD that has the number 0 through 20000
     # 20000 is the number of words that will be in our dictionary
@@ -92,8 +91,6 @@ if __name__ == "__main__":
     # where the word is located
     dictionary = topWordsK.map (lambda x : (topWords[x][0], x))
     
-    ################### TASK 2  ##################
-
     # Next, we get a RDD that has, for each (docID, ["word1", "word2", "word3", ...]),
     # ("word1", docID), ("word2", docId), ...
     
@@ -136,8 +133,6 @@ if __name__ == "__main__":
     # Finally, convert all of the tf vectors in allDocsAsNumpyArrays to tf * idf vectors
     allDocsAsNumpyArraysTFidf = allDocsAsNumpyArrays.map(lambda x: (x[0], np.multiply(x[1], idfArray)))
     
-
-    ################### TASK 3  ##################
     
     # Finally, we have a function that returns the prediction for the label of a string, using a kNN algorithm
     def getPrediction (textInput, k):
@@ -156,7 +151,6 @@ if __name__ == "__main__":
     
         # Get the tf * idf array for the input string
         myArray = np.multiply (myArray, idfArray)
-        
         
         #### step to avoid the join, instead we take the dot product to the TFI array
         allDocsAsNumpyArraysTFidfDotP=allDocsAsNumpyArraysTFidf.map(lambda p: (p[0], np.dot(p[1],myArray)))
